@@ -16,8 +16,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -29,7 +31,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-
+            NavigationScreen()
         }
     }
 }
@@ -61,8 +63,13 @@ fun HomeScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Text(text = "Home")
-            Spacer(modifier = Modifier.padding(10.dp))
+            Text(text = "Welcome to the Fitness App", fontSize = 25.sp, fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.padding(7.dp))
+            Text(
+                text = "The #1 personal training app",
+                fontSize = 16.sp
+            )
+            Spacer(modifier = Modifier.padding(20.dp))
             Button(onClick = { navController.navigate("menu") }) {
                 Text(text = "Go to Menu")
             }
