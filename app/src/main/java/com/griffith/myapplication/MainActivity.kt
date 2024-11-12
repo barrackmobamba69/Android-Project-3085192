@@ -19,6 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.griffith.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -31,6 +34,25 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Composable
+fun NavigationScreen(){
+    val navController = rememberNavController()
+    Surface(modifier = Modifier.fillMaxSize()){
+        NavHost(
+            navController = navController,
+            startDestination = "home"){
+            composable("home"){
+                HomeScreen(navController)
+            }
+            composable("menu"){
+                MenuScreen(navController)
+                }
+            composable("options"){
+                OptionsScreen(navController)
+            }
+        }
+    }
+}
 
 @Composable
 fun HomeScreen(navController: NavController) {
