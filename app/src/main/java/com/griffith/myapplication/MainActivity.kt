@@ -51,7 +51,6 @@ fun NavigationScreen(){
             composable("about"){
                 AboutScreen(navController)
             }
-
         }
     }
 }
@@ -133,6 +132,8 @@ fun SettingsScreen(navController: NavController) {
 fun AboutScreen(navController: NavController) {
     Surface(modifier = Modifier.fillMaxSize()){
         Column(
+            // Added padding because the text was touching the bezel
+            modifier = Modifier.padding(horizontal = 20.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
