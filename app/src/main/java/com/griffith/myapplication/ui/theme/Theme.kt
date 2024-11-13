@@ -1,3 +1,8 @@
+//Name - Udayy Singh Pawar
+//Student Number - 3085192
+//Mobile Development [BSCH-MD/Dub/FT]
+//Milestone 1 - Archive,Video and document
+
 package com.griffith.myapplication.ui.theme
 import android.app.Activity
 import android.os.Build
