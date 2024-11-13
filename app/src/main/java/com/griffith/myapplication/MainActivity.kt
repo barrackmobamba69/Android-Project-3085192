@@ -13,7 +13,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -87,7 +89,6 @@ fun MenuScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Text(text = "Menu")
             Spacer(modifier = Modifier.padding(10.dp))
             Button(onClick = { navController.navigate("home") }) {
                 Text(text = "Go to Home")
@@ -99,6 +100,8 @@ fun MenuScreen(navController: NavController) {
     }
 }
 
+private var enteredText = mutableStateOf("")
+
 @Composable
 fun OptionsScreen(navController: NavController) {
     Surface(modifier = Modifier.fillMaxSize()){
@@ -106,13 +109,11 @@ fun OptionsScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Text(text = "Menu")
+            Text(text = "Settings", fontSize = 25.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.padding(10.dp))
+            Spacer(modifier = Modifier.padding(20.dp))
             Button(onClick = { navController.navigate("home") }) {
-                Text(text = "Go to Home")
-            }
-            Button(onClick = { navController.navigate("menu")}) {
-                Text(text = "Go to Menu")
+                Text(text = "Save and return to Dashboard")
             }
         }
     }
