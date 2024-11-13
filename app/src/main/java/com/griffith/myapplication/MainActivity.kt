@@ -111,6 +111,28 @@ fun OptionsScreen(navController: NavController) {
         ){
             Text(text = "Settings", fontSize = 25.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.padding(10.dp))
+            // Placeholder input fields for user settings
+            Text(text = "Weight (kg):")
+            // Added TextField for weight input
+            TextField(
+                value = enteredText.value,
+                onValueChange = {enteredText.value = it},
+                label = { Text("Enter Weight") }
+            )
+            Text(text = "Height (cm):")
+            // Added TextField for height input
+            TextField(
+                value = enteredText.value,
+                onValueChange = {enteredText.value = it},
+                label = { Text("Enter Height") }
+            )
+            Text(text = "Daily Step Goal:")
+            // Added TextField goal input
+            TextField(
+                value = enteredText.value,
+                onValueChange = {enteredText.value = it},
+                label = { Text("Enter Goal") }
+            )
             Spacer(modifier = Modifier.padding(20.dp))
             Button(onClick = { navController.navigate("home") }) {
                 Text(text = "Save and return to Dashboard")
