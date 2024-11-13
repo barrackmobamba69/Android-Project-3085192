@@ -3,7 +3,7 @@
 //Mobile Development [BSCH-MD/Dub/FT]
 //Milestone 1 - Archive,Video and document
 
-package com.griffith.myapplication.ui.theme
+package com.griffith.androidproject3085192.ui.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

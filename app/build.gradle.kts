@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.griffith.myapplication"
+    namespace = "com.griffith.androidproject3085192"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.griffith.myapplication"
+        applicationId = "com.griffith.androidproject3085192"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

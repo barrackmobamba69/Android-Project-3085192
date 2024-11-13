@@ -1,4 +1,4 @@
-package com.griffith.myapplication
+package com.griffith.androidproject3085192
 
 import org.junit.Test
 

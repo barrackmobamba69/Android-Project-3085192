@@ -3,7 +3,7 @@
 //Mobile Development [BSCH-MD/Dub/FT]
 //Milestone 1 - Archive,Video and document
 
-package com.griffith.myapplication
+package com.griffith.androidproject3085192
 
 import android.content.Intent
 import android.net.Uri
@@ -31,7 +31,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.griffith.myapplication.ui.theme.AppTheme
+import com.griffith.androidproject3085192.ui.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
