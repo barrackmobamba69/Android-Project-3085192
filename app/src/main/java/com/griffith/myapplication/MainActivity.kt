@@ -45,12 +45,13 @@ fun NavigationScreen(){
             composable("home"){
                 HomeScreen(navController)
             }
-            composable("menu"){
-                AboutScreen(navController)
-                }
-            composable("options"){
+            composable("settings"){
                 SettingsScreen(navController)
             }
+            composable("about"){
+                AboutScreen(navController)
+            }
+
         }
     }
 }
@@ -62,42 +63,32 @@ fun HomeScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Text(text = "Welcome to the Fitness App", fontSize = 25.sp, fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.padding(7.dp))
-            Text(
-                text = "The #1 personal training app",
-                fontSize = 16.sp
-            )
-            Spacer(modifier = Modifier.padding(20.dp))
-            Button(onClick = { navController.navigate("menu") }) {
-                Text(text = "Go to Menu")
-            }
-            Button(onClick = { navController.navigate("options")}) {
-                Text(text = "Go to Options")
-            }
-        }
-    }
-}
-
-@Composable
-fun AboutScreen(navController: NavController) {
-    Surface(modifier = Modifier.fillMaxSize()){
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
+            Text(text = "Welcome to the X-Fitness App", fontSize = 25.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.padding(10.dp))
-            Button(onClick = { navController.navigate("home") }) {
-                Text(text = "Go to Home")
+//            Text(
+//                text = "The #1 personal training app",
+//                fontSize = 16.sp
+//            )
+            Text(text = "Daily Activity", fontSize = 20.sp, fontWeight = FontWeight.Medium)
+            Spacer(modifier = Modifier.padding(10.dp))
+            Text(text = "Steps: 0")
+            Text(text = "Distance travelled: 0 km")
+            Text(text = "Calories burnt: 0 Kcal")
+
+            Spacer(modifier = Modifier.padding(20.dp))
+            Button(onClick = { navController.navigate("settings")}) {
+                Text(text = "Go to Settings")
             }
-            Button(onClick = { navController.navigate("options")}) {
-                Text(text = "Go to Options")
+            Button(onClick = { navController.navigate("about") }) {
+                Text(text = "About")
             }
         }
     }
 }
 
-private var enteredText = mutableStateOf("")
+private var enteredWeight = mutableStateOf("")
+private var enteredHeight = mutableStateOf("")
+private var enteredStepGoal = mutableStateOf("")
 
 @Composable
 fun SettingsScreen(navController: NavController) {
@@ -112,27 +103,45 @@ fun SettingsScreen(navController: NavController) {
             Text(text = "Weight (kg):")
             // Added TextField for weight input
             TextField(
-                value = enteredText.value,
-                onValueChange = {enteredText.value = it},
+                value = enteredWeight.value,
+                onValueChange = {enteredWeight.value = it},
                 label = { Text("Enter Weight") }
             )
             Text(text = "Height (cm):")
             // Added TextField for height input
             TextField(
-                value = enteredText.value,
-                onValueChange = {enteredText.value = it},
+                value = enteredHeight.value,
+                onValueChange = {enteredHeight.value = it},
                 label = { Text("Enter Height") }
             )
             Text(text = "Daily Step Goal:")
             // Added TextField goal input
             TextField(
-                value = enteredText.value,
-                onValueChange = {enteredText.value = it},
+                value = enteredStepGoal.value,
+                onValueChange = {enteredStepGoal.value = it},
                 label = { Text("Enter Goal") }
             )
             Spacer(modifier = Modifier.padding(20.dp))
             Button(onClick = { navController.navigate("home") }) {
                 Text(text = "Save and return to Dashboard")
+            }
+        }
+    }
+}
+
+@Composable
+fun AboutScreen(navController: NavController) {
+    Surface(modifier = Modifier.fillMaxSize()){
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            Text(text = "About the App", fontSize = 25.sp, fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.padding(10.dp))
+            Text(text = "This app monitors the users daily physical activity. It allows the user to track their steps, calculate the distance travelled and display an amount of burned calories.")
+            Spacer(modifier = Modifier.padding(10.dp))
+            Button(onClick = { navController.navigate("home")}) {
+                Text(text = "Return to Dashboard")
             }
         }
     }
