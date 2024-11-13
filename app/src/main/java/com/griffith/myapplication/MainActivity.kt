@@ -118,24 +118,24 @@ fun SettingsScreen(navController: NavController) {
             Text(text = "Settings", fontSize = 25.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.padding(10.dp))
             // Placeholder input fields for user settings
-            Text(text = "Weight (kg):")
             Spacer(modifier = Modifier.padding(5.dp))
+            Text(text = "Weight (kg):")
             // Added TextField for weight input
             TextField(
                 value = enteredWeight.value,
                 onValueChange = {enteredWeight.value = it},
                 label = { Text("Enter Weight") }
             )
-            Text(text = "Height (cm):")
             Spacer(modifier = Modifier.padding(5.dp))
+            Text(text = "Height (cm):")
             // Added TextField for height input
             TextField(
                 value = enteredHeight.value,
                 onValueChange = {enteredHeight.value = it},
                 label = { Text("Enter Height") }
             )
-            Text(text = "Daily Step Goal:")
             Spacer(modifier = Modifier.padding(5.dp))
+            Text(text = "Daily Step Goal:")
             // Added TextField for goal input
             TextField(
                 value = enteredStepGoal.value,
