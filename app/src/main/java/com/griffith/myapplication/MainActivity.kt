@@ -1,5 +1,7 @@
 package com.griffith.myapplication
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -64,17 +66,29 @@ fun HomeScreen(navController: NavController) {
         ){
             Text(text = "Welcome to the X-Fitness App", fontSize = 25.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.padding(10.dp))
-//            Text(
-//                text = "The #1 personal training app",
-//                fontSize = 16.sp
-//            )
+            //Text( //Unsure if i want to keep it or not
+            //    text = "The #1 personal training app",
+            //    fontSize = 16.sp
+            //)
             Text(text = "Daily Activity", fontSize = 20.sp, fontWeight = FontWeight.Medium)
             Spacer(modifier = Modifier.padding(10.dp))
-            Text(text = "Steps: 0")
+            Text(text = "Steps travelled: 0")
             Text(text = "Distance travelled: 0 km")
-            Text(text = "Calories burnt: 0 Kcal")
+            Text(text = "Calories burnt: 0 cal")
 
             Spacer(modifier = Modifier.padding(20.dp))
+
+            // Added an implicit intent to allow the user to share progress to others
+            Button(onClick = {
+                val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, "Check out my progress on the X-Fitness App!")
+                }
+                navController.context.startActivity(Intent.createChooser(shareIntent, "Share your progress"))
+            }){
+                Text(text = "Share Progress")
+            }
+
             Button(onClick = { navController.navigate("settings")}) {
                 Text(text = "Go to Settings")
             }
@@ -132,7 +146,7 @@ fun SettingsScreen(navController: NavController) {
 fun AboutScreen(navController: NavController) {
     Surface(modifier = Modifier.fillMaxSize()){
         Column(
-            // Added padding because the text was touching the bezel
+            // Added padding because to prevent the text from touching the screen edge
             modifier = Modifier.padding(horizontal = 20.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -144,6 +158,15 @@ fun AboutScreen(navController: NavController) {
             Button(onClick = { navController.navigate("home")}) {
                 Text(text = "Return to Dashboard")
             }
+            // Added an implicit intent to open a website
+            Button(onClick = {
+                val context = navController.context
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.example.com"))
+                context.startActivity(intent)
+            }) {
+                Text(text = "Visit Website")
+            }
+
         }
     }
 }
