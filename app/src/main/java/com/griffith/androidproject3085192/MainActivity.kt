@@ -175,7 +175,7 @@ fun AboutScreen(navController: NavController) {
             }
             // Added an implicit intent to open an example website
             Button(onClick = {
-                val context = navController.context
+                val context =  navController.context
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.example.com"))
                 context.startActivity(intent)
             }) {
