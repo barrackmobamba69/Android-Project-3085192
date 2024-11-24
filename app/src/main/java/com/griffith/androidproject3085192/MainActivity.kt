@@ -179,7 +179,7 @@ fun AboutScreen(navController: NavController) {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.example.com"))
                 context.startActivity(intent)
             }) {
-                Text(text = "Visit Website" )
+                Text(text = "Visit Website"  )
             }
 
         }
