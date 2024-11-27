@@ -8,6 +8,7 @@ package com.griffith.androidproject3085192
 import android.content.Context
 import android.content.Intent
 import android.hardware.Sensor
+import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.net.Uri
@@ -40,7 +41,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.griffith.androidproject3085192.ui.theme.AppTheme
 
-class MainActivity : ComponentActivity(), AccelerometerListener {
+class StepCounterManager(private val context: Context) : SensorEventListener {
+    override fun onSensorChanged(event: SensorEvent?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+        TODO("Not yet implemented")
+    }
+}
+
+class MainActivity : ComponentActivity() {
 
     private lateinit var sensorManager: SensorManager
     private var accelerometer: Sensor? = null
