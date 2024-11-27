@@ -155,7 +155,8 @@ fun SettingsScreen(navController: NavController) {
                 label = { Text("Enter Daily Step Goal") }
             )
             Spacer(modifier = Modifier.padding(20.dp))
-            // Button to save settings and return to dashboard (WIP | This will be done in the upcoming milestones)
+
+            // Button is used to save user input data and save into SharedPreferences, return to dashboard
             Button(onClick = {
                 with(sharedPrefs.edit()) {
                     putFloat("weight", enteredWeight.toFloatOrNull() ?: 0f)
