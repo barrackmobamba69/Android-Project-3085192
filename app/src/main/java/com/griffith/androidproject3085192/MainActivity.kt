@@ -5,6 +5,7 @@
 
 package com.griffith.androidproject3085192
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -21,7 +22,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -107,14 +111,12 @@ fun HomeScreen(navController: NavController) {
     }
 }
 
-// Mutable states to store input values from the user (WIP | This will be done in the upcoming milestones)
-private var enteredWeight = mutableStateOf("")
-private var enteredHeight = mutableStateOf("")
-private var enteredStepGoal = mutableStateOf("")
-
 // SettingsScreen: Composable function that displays the settings screen where user can input their weight, height and daily step goal
 @Composable
 fun SettingsScreen(navController: NavController) {
+    val context = navController.context
+    val sharedPrefs = context.getSharedPreferences("fitness_prefs", Context.MODE_PRIVATE)
+
     Surface(modifier = Modifier.fillMaxSize()){
         Column(
             verticalArrangement = Arrangement.Center,
@@ -122,29 +124,34 @@ fun SettingsScreen(navController: NavController) {
         ){
             Text(text = "Settings", fontSize = 25.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.padding(10.dp))
+
+            // Mutable states to store input values from the user
+            var enteredWeight by remember { mutableStateOf("") }
+            var enteredHeight by remember { mutableStateOf("") }
+            var enteredStepGoal by remember { mutableStateOf("") }
+
             // Placeholder input fields for user settings
-            Spacer(modifier = Modifier.padding(5.dp))
             Text(text = "Weight (kg):")
             // Added TextField for weight input
             TextField(
-                value = enteredWeight.value,
-                onValueChange = {enteredWeight.value = it},
+                value = enteredWeight,
+                onValueChange = {enteredWeight = it},
                 label = { Text("Enter Weight") }
             )
             Spacer(modifier = Modifier.padding(5.dp))
             Text(text = "Height (cm):")
             // Added TextField for height input
             TextField(
-                value = enteredHeight.value,
-                onValueChange = {enteredHeight.value = it},
+                value = enteredHeight,
+                onValueChange = {enteredHeight = it},
                 label = { Text("Enter Height") }
             )
             Spacer(modifier = Modifier.padding(5.dp))
             Text(text = "Daily Step Goal:")
             // Added TextField for goal input
             TextField(
-                value = enteredStepGoal.value,
-                onValueChange = {enteredStepGoal.value = it},
+                value = enteredStepGoal,
+                onValueChange = {enteredStepGoal = it},
                 label = { Text("Enter Goal") }
             )
             Spacer(modifier = Modifier.padding(20.dp))
