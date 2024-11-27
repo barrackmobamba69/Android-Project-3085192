@@ -48,31 +48,49 @@ class StepCounterManager(private val context: Context) : SensorEventListener {
     private val stepCounterSensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
     val steps: MutableState<Int> = mutableStateOf(0) // Mutable state to track steps
 
-    // Initialized the step counter to start counting steps
+    // Initialized the counter to start counting steps
     fun startStepCounting() {
         stepCounterSensor?.let {
             sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
         }
     }
 
-    // Stop step counting
+    // Stop the counter to stop counting steps
     fun stopStepCounting() {
         sensorManager.unregisterListener(this)
     }
 
-
+    // Implemented sensor event listener
     override fun onSensorChanged(event: SensorEvent?) {
-        TODO("Not yet implemented")
+        event?.let {
+            if (it.sensor.type == Sensor.TYPE_STEP_DETECTOR) {
+                steps.value++
+            }
+        }
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        TODO("Not yet implemented")
+        //("Not yet implemented")
+    }
+
+    // Calculate distance travelled
+    fun calculateDistance(steps: Int, heightCm: Float): Double {
+        // Approximate stride length calculation
+        val strideLength = heightCm * 0.415 / 1000 // Convert to kilometers
+        return steps * strideLength
+    }
+
+    // Calculate calories burned
+    fun calculateCaloriesBurned(steps: Int, weightKg: Float, heightCm: Float): Double {
+        val distance = calculateDistance(steps, heightCm)
+        // Simplified calorie estimation formula
+        return distance * weightKg * 1.036f
     }
 }
 
 class MainActivity : ComponentActivity() {
 
-    private lateinit var sensorManager: SensorManager
+    private lateinit var stepCounterManager: StepCounterManager
     private var accelerometer: Sensor? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,9 +102,9 @@ class MainActivity : ComponentActivity() {
                 NavigationScreen() // Start the navigation screen
             }
         }
+        // Start step counting
+        stepCounterManager.startStepCounting()
     }
-    // Start step counting
-    stepCounterManager.startStepCounting()
 }
 
 // NavigationScreen: Composable function to handle navigation between different screens
@@ -113,19 +131,20 @@ fun NavigationScreen(){
 // HomeScreen: Composable function that displays the main dashboard and user's statistics
 @Composable
 fun HomeScreen(navController: NavController) {
-
     val context = navController.context
     val sharedPrefs = context.getSharedPreferences("fitness_prefs", Context.MODE_PRIVATE)
 
+    // Retrieve user data from SharedPreferences
     val weight = sharedPrefs.getFloat("weight", 0f)
     val height = sharedPrefs.getFloat("height", 0f)
     val stepGoal = sharedPrefs.getInt("step_goal", 0)
 
-    val steps = remember { mutableStateOf(0) }
+    val stepCounterManager = remember { StepCounterManager(context) }
+    val steps by stepCounterManager.steps
 
-    // Calculate the distance and calories using the following formula
-    val distance = steps.value * (height * 0.415) / 1000
-    val calories = distance * weight * 1.036
+    // Calculate distance and calories from stepCounterManager
+    val distance = stepCounterManager.calculateDistance(steps, height)
+    val calories = stepCounterManager.calculateCaloriesBurned(steps, weight, height)
     // WIP- for Milestone 3 (Calculating the users progress based on the steps taken compared to the step goal)
     // val progress = (steps.value / stepGoal.toFloat()) * 100
 
@@ -139,7 +158,7 @@ fun HomeScreen(navController: NavController) {
             // Placeholder text for user's fitness statistics
             Text(text = "Daily Activity", fontSize = 20.sp, fontWeight = FontWeight.Medium)
             Spacer(modifier = Modifier.padding(10.dp))
-            Text(text = "Steps travelled: ${steps.value}")
+            Text(text = "Steps travelled: ${steps}")
             Text(text = "Distance travelled: ${String.format("%.2f", distance)} km")
             Text(text = "Calories burnt: ${String.format("%.1f", calories)} cal")
 
