@@ -36,6 +36,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.griffith.androidproject3085192.ui.theme.AppTheme
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +74,23 @@ fun NavigationScreen(){
 // HomeScreen: Composable function that displays the main dashboard and user's statistics
 @Composable
 fun HomeScreen(navController: NavController) {
+
+    val context = navController.context
+    val sharedPrefs = context.getSharedPreferences("fitness_prefs", Context.MODE_PRIVATE)
+
+    val weight = sharedPrefs.getFloat("weight", 0f)
+    val height = sharedPrefs.getFloat("height", 0f)
+    val stepGoal = sharedPrefs.getInt("step_goal", 0)
+
+    val steps = remember { mutableStateOf(0) }
+
+    // Calculate the distance traveled using the following formula
+    val distance = steps.value * (height * 0.415) / 1000
+    // Calculate the calories burned using the following formula
+    val calories = distance * weight * 1.036
+    // WIP- for Milestone 3 (Calculating the users progress based on the steps taken compared to the step goal)
+    // val progress = (steps.value / stepGoal.toFloat()) * 100
+
     Surface(modifier = Modifier.fillMaxSize()){
         Column(
             verticalArrangement = Arrangement.Center,
@@ -83,9 +101,9 @@ fun HomeScreen(navController: NavController) {
             // Placeholder text for user's fitness statistics
             Text(text = "Daily Activity", fontSize = 20.sp, fontWeight = FontWeight.Medium)
             Spacer(modifier = Modifier.padding(10.dp))
-            Text(text = "Steps travelled: 0")
-            Text(text = "Distance travelled: 0 km")
-            Text(text = "Calories burnt: 0 cal")
+            Text(text = "Steps travelled: ${steps.value}")
+            Text(text = "Distance travelled: ${String.format("%.2f", distance)} km")
+            Text(text = "Calories burnt: ${String.format("%.2f", calories)} cal")
 
             Spacer(modifier = Modifier.padding(20.dp))
 
@@ -114,6 +132,7 @@ fun HomeScreen(navController: NavController) {
 // SettingsScreen: Composable function that displays the settings screen where user can input their weight, height and daily step goal
 @Composable
 fun SettingsScreen(navController: NavController) {
+    // SharedPreferences is used to store and retrieve user data (weight, height, and step goals)
     val context = navController.context
     val sharedPrefs = context.getSharedPreferences("fitness_prefs", Context.MODE_PRIVATE)
 
