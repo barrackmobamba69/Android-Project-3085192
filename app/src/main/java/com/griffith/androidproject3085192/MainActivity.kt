@@ -75,7 +75,7 @@ class StepCounterManager(private val context: Context) : SensorEventListener {
 
     // Calculate distance travelled
     fun calculateDistance(steps: Int, heightCm: Float): Double {
-        // Approximate stride length calculation
+        // Formula to calculate stride length
         val strideLength = heightCm * 0.415 / 1000 // Convert to kilometers
         return steps * strideLength
     }
@@ -83,7 +83,7 @@ class StepCounterManager(private val context: Context) : SensorEventListener {
     // Calculate calories burned
     fun calculateCaloriesBurned(steps: Int, weightKg: Float, heightCm: Float): Double {
         val distance = calculateDistance(steps, heightCm)
-        // Simplified calorie estimation formula
+        // Formula to calculate calorie
         return distance * weightKg * 1.036f
     }
 }
