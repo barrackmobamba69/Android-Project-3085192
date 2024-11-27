@@ -1,12 +1,15 @@
 //Name - Udayy Singh Pawar
 //Student Number - 3085192
 //Mobile Development [BSCH-MD/Dub/FT]
-//Milestone 1 - Archive,Video and document
+//Milestone 2 - Archive,Video and document
 
 package com.griffith.androidproject3085192
 
 import android.content.Context
 import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -36,9 +39,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.griffith.androidproject3085192.ui.theme.AppTheme
-import java.util.Locale
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), AccelerometerListener {
+
+    private lateinit var sensorManager: SensorManager
+    private var accelerometer: Sensor? = null
+    private var currentStepCount = mutableStateOf(0)
+    private var lastMagnitude = 0f
+    private val stepThreshold = 10f
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -102,7 +111,7 @@ fun HomeScreen(navController: NavController) {
             Spacer(modifier = Modifier.padding(10.dp))
             Text(text = "Steps travelled: ${steps.value}")
             Text(text = "Distance travelled: ${String.format("%.2f", distance)} km")
-            Text(text = "Calories burnt: ${String.format("%.2f", calories)} cal")
+            Text(text = "Calories burnt: ${String.format("%.1f", calories)} cal")
 
             Spacer(modifier = Modifier.padding(20.dp))
 
