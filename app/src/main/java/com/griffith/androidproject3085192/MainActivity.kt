@@ -26,6 +26,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,6 +43,24 @@ import androidx.navigation.compose.rememberNavController
 import com.griffith.androidproject3085192.ui.theme.AppTheme
 
 class StepCounterManager(private val context: Context) : SensorEventListener {
+
+    private val sensorManager: SensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    private val stepCounterSensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
+    val steps: MutableState<Int> = mutableStateOf(0) // Mutable state to track steps
+
+    // Initialized the step counter to start counting steps
+    fun startStepCounting() {
+        stepCounterSensor?.let {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+    }
+
+    // Stop step counting
+    fun stopStepCounting() {
+        sensorManager.unregisterListener(this)
+    }
+
+
     override fun onSensorChanged(event: SensorEvent?) {
         TODO("Not yet implemented")
     }
@@ -55,12 +74,10 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var sensorManager: SensorManager
     private var accelerometer: Sensor? = null
-    private var currentStepCount = mutableStateOf(0)
-    private var lastMagnitude = 0f
-    private val stepThreshold = 10f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        stepCounterManager = StepCounterManager(this)
         enableEdgeToEdge()
         setContent {
             AppTheme(darkTheme = true){ // Applied dark theme to the app
@@ -68,6 +85,8 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+    // Start step counting
+    stepCounterManager.startStepCounting()
 }
 
 // NavigationScreen: Composable function to handle navigation between different screens
