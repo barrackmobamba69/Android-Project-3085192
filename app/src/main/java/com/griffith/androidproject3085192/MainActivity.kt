@@ -158,7 +158,7 @@ fun HomeScreen(navController: NavController) {
             // Placeholder text for user's fitness statistics
             Text(text = "Daily Activity", fontSize = 20.sp, fontWeight = FontWeight.Medium)
             Spacer(modifier = Modifier.padding(10.dp))
-            Text(text = "Steps travelled: ${steps}")
+            Text(text = "Steps travelled: $steps")
             Text(text = "Distance travelled: ${String.format("%.2f", distance)} km")
             Text(text = "Calories burnt: ${String.format("%.1f", calories)} cal")
 
