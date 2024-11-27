@@ -84,9 +84,8 @@ fun HomeScreen(navController: NavController) {
 
     val steps = remember { mutableStateOf(0) }
 
-    // Calculate the distance traveled using the following formula
+    // Calculate the distance and calories using the following formula
     val distance = steps.value * (height * 0.415) / 1000
-    // Calculate the calories burned using the following formula
     val calories = distance * weight * 1.036
     // WIP- for Milestone 3 (Calculating the users progress based on the steps taken compared to the step goal)
     // val progress = (steps.value / stepGoal.toFloat()) * 100
