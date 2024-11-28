@@ -89,9 +89,7 @@ class StepCounterManager(private val context: Context) : SensorEventListener {
 }
 
 class MainActivity : ComponentActivity() {
-
     private lateinit var stepCounterManager: StepCounterManager
-    private var accelerometer: Sensor? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
