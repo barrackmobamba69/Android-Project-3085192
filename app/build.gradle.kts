@@ -50,8 +50,9 @@ android {
 }
 
 dependencies {
-    val roomVersion = "2.5.2"
-    implementation(libs.androidx.room.runtime)
+//    implementation (libs.androidx.room.runtime)
+//    implementation (libs.androidx.room.compiler)
+//    implementation (libs.androidx.room.ktx)
 
     implementation (libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)
