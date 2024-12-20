@@ -2,13 +2,16 @@ package com.griffith.androidproject3085192
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -77,7 +80,9 @@ class FitnessViewModel : ViewModel(), SensorEventListener {
 
     private var lastMagnitude = 0.0f
     private val stepThreshold = 10.0f
+    private lateinit var sharedPreferences: SharedPreferences
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun initializeSensors(context: Context) {
         sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         accelerometer = sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
@@ -86,8 +91,43 @@ class FitnessViewModel : ViewModel(), SensorEventListener {
             accelerometer,
             SensorManager.SENSOR_DELAY_NORMAL
         )
+
+        // Initialize SharedPreferences
+        sharedPreferences = context.getSharedPreferences("FitnessData", Context.MODE_PRIVATE)
+
+        // Load today's data
+        loadTodayData()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun loadTodayData() {
+        val today = java.time.LocalDate.now().toString()
+        val savedDate = sharedPreferences.getString("last_saved_date", "")
+
+        if (savedDate == today) {
+            // Load today's data
+            _steps.value = sharedPreferences.getInt("steps", 0)
+            _distance.value = sharedPreferences.getFloat("distance", 0f)
+            _calories.value = sharedPreferences.getFloat("calories", 0f)
+        } else {
+            // Reset data for new day
+            _steps.value = 0
+            _distance.value = 0f
+            _calories.value = 0f
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun saveTodayData() {
+        val editor = sharedPreferences.edit()
+        editor.putString("last_saved_date", java.time.LocalDate.now().toString())
+        editor.putInt("steps", _steps.value)
+        editor.putFloat("distance", _distance.value)
+        editor.putFloat("calories", _calories.value)
+        editor.apply()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onSensorChanged(event: SensorEvent?) {
         event?.let {
             if (it.sensor.type == Sensor.TYPE_ACCELEROMETER) {
@@ -102,6 +142,8 @@ class FitnessViewModel : ViewModel(), SensorEventListener {
                 if (delta > stepThreshold) {
                     _steps.value += 1
                     updateDistanceAndCalories()
+                    // Save data after each update
+                    saveTodayData()
                 }
             }
         }
@@ -114,13 +156,16 @@ class FitnessViewModel : ViewModel(), SensorEventListener {
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCleared() {
         super.onCleared()
         sensorManager?.unregisterListener(this)
+        // Save data when ViewModel is cleared
+        saveTodayData()
     }
 }
-
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -131,6 +176,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavigationScreen() {
     val navController = rememberNavController()
